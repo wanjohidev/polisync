@@ -13,6 +13,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(config.GetConnectionString("DefaultConnection"))
 );
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddScoped<IClaimsInterface, ClaimsRepository>();
 builder.Services.AddScoped<IPolicyInterface, PolicyRepository>();
 
@@ -50,24 +53,32 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
+app.UseSwagger();
+app.UseSwaggerUI();
 
-// if (app.Environment.IsDevelopment())
-// {
-   
-// }
+app.UseHttpsRedirection();
 
-// app.UseDefaultFiles();
-// app.UseStaticFiles();
-
-app.MapControllers();
-app.UseCors();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseHttpsRedirection();
+app.MapControllers();
+app.UseCors();
 
 app.Run();
+
+// === Health Endpoint ===
+// Useful check if API is alive
+app.MapGet("/", () => Results.Ok(new
+{
+    Application = "Polisync API",
+    Status = "Running",
+    Environent = app.Environment.EnvironmentName,
+    Time = DateTime.Now
+}
+));
 
 
 
@@ -96,6 +107,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 });
 */
 
+
+
+
 /* AppDbContext => Enable logging to expose SQL Queries/migration issues in the terminal:
 
 protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
@@ -115,4 +129,18 @@ private ILoggerFactory? GetLoggerFactory()
     });
     return loggerFactory;
 }
+*/
+
+
+
+
+/* Since in Render, app runs in Production by default, the code below never executes:
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+In this case, it is OK to expose app.UseSwagger() and app.UseSwaggerUI() publicly
 */
