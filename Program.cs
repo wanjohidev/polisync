@@ -67,7 +67,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.UseCors();
 
-app.Run();
 
 // === Health Endpoint ===
 // Useful check if API is alive
@@ -79,6 +78,8 @@ app.MapGet("/", () => Results.Ok(new
     Time = DateTime.Now
 }
 ));
+
+app.Run();
 
 
 
