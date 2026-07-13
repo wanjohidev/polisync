@@ -1,0 +1,6 @@
+@polisync_HostAddress = http://localhost:5220
+
+GET {{polisync_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
