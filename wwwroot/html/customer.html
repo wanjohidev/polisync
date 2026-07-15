@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Page</title>
+    <link rel="stylesheet" href="/wwwroot/css/pico.min.css">
+    <link rel="stylesheet" href="/wwwroot/css/customer.css">
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li><img src="/wwwroot/assets/polisync_logo.png" alt="polisync Logo" width="200px" height="72px"></li>
+        </ul>
+        <ul>
+            <li><button type="submit" id="logoutBtn">Logout</button></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+
+    <aside>
+        <nav>
+            <ul>
+                <li><a href="#" data-page="submit">Submit Claim</a></li>
+                <li><a href="#" data-page="claims">View Claims</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <section id="content">
+
+        <article id="submit-page">
+            <h4>Submit a new claim:</h4>
+            <form id="claimForm">
+                <label>
+                    Policy Type: 
+                   <select required id="policyType">
+                    <option selected disabled value="">Select the type of policy against which you wish to submit a claim...</option>
+                    <option>Health</option>
+                    <option>Motor</option>
+                    <option>Property</option>
+                    <option>Travel</option>
+                    <option>WIBA</option>
+                   </select>
+                </label>
+
+                <label>
+                    Incident Description: 
+                    <textarea type="text" id="incidentDescription" placeholder="e.g. Car Accident / Work Site Injury / Cancelled flight"></textarea>
+                </label>
+
+                <label>
+                    Incident Date:
+                    <input type="datetime-local" id="incidentDate" required>
+                </label>
+                
+                <label>
+                    Claim Amount:
+                    <input type="number" id="claimAmount" required>
+                </label>
+
+                <button type="submit">Submit Claim</button>
+            </form>
+        </article>
+            
+       
+        <article id="claims-page" hidden>
+            <h4>My submitted claims:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Claim ID</th>
+                        <th>Policy Type</th>
+                        <th>Incident Description</th>
+                        <th>Incident Date</th>
+                        <th>Claim Amount</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+
+                <tbody id="claimsTable">
+
+                </tbody>
+
+            </table>
+        </article>
+
+    </section>
+
+</main>
+    
+</body>
+
+<script src="/wwwroot/js/customer.js"></script>
+<script src="/wwwroot/js/shared.js"></script>
+</html>

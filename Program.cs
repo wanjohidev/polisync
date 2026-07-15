@@ -75,7 +75,7 @@ app.MapGet("/", () => Results.Ok(new
     Application = "Polisync API",
     Status = "Running",
     Environent = app.Environment.EnvironmentName,
-    Time = DateTime.Now
+    Time = DateTime.UtcNow
 }
 ));
 

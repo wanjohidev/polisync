@@ -1,0 +1,10 @@
+main{
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2rem;
+}
+
+aside {
+    border-right: 4px solid var(--pico-muted-border-color);
+    padding-right: 1rem;
+}

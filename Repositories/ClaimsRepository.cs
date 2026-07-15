@@ -28,9 +28,8 @@ namespace polisync.Repositories
                 IncidentDescription = c.IncidentDescription,
                 ClaimAmount = c.ClaimAmount,
 
-                UserName = c.User != null ? $"{c.User.Name}" : "Unknown",
-                PolicyNumber = c.Policy?.PolicyNumber ?? "N/A",
-                PolicyType = c.Policy?.PolicyType ?? "N/A"
+                Claimant = c.User != null ? $"{c.User.Name}" : "Unknown",
+                PolicyType = c.Policy.PolicyType
             }).ToList();
         }
 

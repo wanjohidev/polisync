@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="/wwwroot/css/pico.min.css">
+    <link rel="stylesheet" href="/wwwroot/css/admin.css">
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li><img src="/wwwroot/assets/polisync_logo.png" alt="polisync Logo" width="200px" height="72px"></li>
+        </ul>
+        <ul>
+            <li><button type="submit" id="logoutBtn">Logout</button></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+
+    <aside>
+        <nav>
+            <ul>
+                <li><a href="#" data-page="policies">View Policies</a></li>
+                <li><a href="#" data-page="claims">View Claims</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <section id="content">
+        <article id="policies-page">
+            <h4>List of available policies:</h4>
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Policy Name</th>
+                        <th>Policy Type</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Policy Limit</th>
+                    </tr>
+                </thead>
+
+                <tbody id="policiesTable">
+
+                </tbody>
+
+            </table>
+        </article>
+
+        <article id="claims-page" hidden>
+            <h4>List of all claims:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Claim ID</th>
+                        <th>Incident Description</th>
+                        <th>Claim Amount</th>
+                        <th>Claimant</th>
+                        <th>Policy Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="claimsTable">
+
+                </tbody>
+
+            </table>
+    </section>
+
+    <section id="claimDetails" hidden>
+        <h4>Claim Details: </h4>
+        <article>
+            <p><strong>Claim ID:</strong><span id="detailClaimId"></span></p>
+            <p><strong>Policy: </strong><span id="detailPolicy"></span></p>
+            <p><strong>Claimant: </strong><span id="detailClaimant"></span></p>
+            <p><strong>Incident Description: </strong></p>
+
+            <p id="detailDescription"></p>
+
+            <p><strong>Amount: </strong><span id="detailAmount"></span></p>
+            <p><strong>Status: </strong><span id="detailStatus"></span></p>
+
+            <hr>
+
+            <label for="statusSelect">UpdateStatus</label>
+            <select id="statusSelect">
+                <option value="Submitted">Submitted</option>
+                <option value="UnderReview">Under Review</option>
+                <option value="Approved">Approved</option>
+                <option value="Denied">Denied</option>
+            </select>
+
+            <button id="updateBtn">Update Claim Status</button>
+
+            <button id="deleteBtn" class="contrast">Delete Claim</button>
+
+        </article>
+    </section>
+
+
+
+
+</main>   
+</body>
+
+<script src="/wwwroot/js/admin.js"></script>
+<script src="/wwwroot/js/shared.js"></script>
+</html>

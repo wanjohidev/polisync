@@ -1,10 +1,11 @@
+using polisync.Models.Enums;
+
 namespace polisync.Models
 {
     public class Policy
     {
-        public int PolicyId { get; set; }
-        public string PolicyNumber { get; set; } = string.Empty;
-        public string PolicyType { get; set; } = string.Empty;
+        public string PolicyName { get; set; } = string.Empty;
+        public PolicyTypeEnum PolicyType { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal PolicyLimit { get; set; }

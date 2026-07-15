@@ -1,10 +1,12 @@
+using polisync.Models.Enums;
+
 namespace polisync.Models
 {
     public class InsuranceClaim
     {
         public int ClaimId { get; set; }
         public int UserId { get; set; }
-        public int PolicyId { get; set; }
+        public PolicyTypeEnum PolicyType { get; set; }
         public string IncidentDescription { get; set; } = string.Empty;
         public DateTime IncidentDate { get; set; }
         public decimal ClaimAmount { get; set; }

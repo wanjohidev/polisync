@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using polisync.Models.Enums;
 
 namespace polisync.Models.DTOs
 {
@@ -13,9 +14,8 @@ namespace polisync.Models.DTOs
         public decimal ClaimAmount { get; set; } 
 
         // Properties derived from other tables
-        public string UserName { get; set; } = string.Empty;
-        public string PolicyNumber { get; set; } = string.Empty;
-        public string PolicyType { get; set; } = string.Empty;
+        public string Claimant { get; set; } = string.Empty;
+        public PolicyTypeEnum PolicyType { get; set; }
 
     }
 }

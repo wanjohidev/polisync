@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using polisync.Models;
+using polisync.Models.Enums;
 
 namespace polisync.Data
 {
@@ -118,46 +119,46 @@ namespace polisync.Data
 
             // === 2. POLICIES TABLE ===
             modelBuilder.Entity<Policy>()
-                .HasKey(p => p.PolicyId);
+                .HasKey(p => (int)p.PolicyType);
             modelBuilder.Entity<Policy>()
                 .HasMany(p => p.InsuranceClaims)
                 .WithOne(c => c.Policy)
-                .HasForeignKey(c => c.PolicyId);
+                .HasForeignKey(c => (int)c.PolicyType);
 
             modelBuilder.Entity<Policy>()
                 .HasData(new List<Policy>
                 {
                     new Policy 
                     { 
-                        PolicyId = 1, PolicyNumber = "HEALTH/4/2023", PolicyType = "Health", 
+                        PolicyName = "HEALTH/4/2023", PolicyType = PolicyTypeEnum.Health, 
                         StartDate = new DateTime(2026,1,1,0,0,0), 
                         EndDate = new DateTime(2027,1,1,0,0,0),
                         PolicyLimit = 15000000m 
                     },
                     new Policy 
                     { 
-                        PolicyId = 2, PolicyNumber = "MOTOR/1/2024", PolicyType = "Motor",
+                        PolicyName = "MOTOR/1/2024", PolicyType = PolicyTypeEnum.Motor,
                         StartDate = new DateTime(2026,2,1,0,0,0), 
                         EndDate = new DateTime(2027,2,1,0,0,0), 
                         PolicyLimit = 25000000m 
                     },
                     new Policy 
                     { 
-                        PolicyId = 3, PolicyNumber = "PROPERTY/2/2023", PolicyType = "Property",
+                        PolicyName = "PROPERTY/2/2023", PolicyType = PolicyTypeEnum.Property,
                         StartDate = new DateTime(2025,1,1,0,0,0), 
                         EndDate = new DateTime(2026,7,1,0,0,0), 
                         PolicyLimit = 7500000m 
                     },
                     new Policy 
                     { 
-                        PolicyId = 4, PolicyNumber = "TRAVEL/4/2022", PolicyType = "Travel",
+                        PolicyName = "TRAVEL/4/2022", PolicyType = PolicyTypeEnum.Travel,
                         StartDate = new DateTime(2026,1,1,0,0,0), 
                         EndDate = new DateTime(2026,7,1,0,0,0),  
                         PolicyLimit = 2500000m 
                     },
                     new Policy 
                     { 
-                        PolicyId = 5, PolicyNumber = "WIBA/1/2025", PolicyType = "WIBA",
+                        PolicyName = "WIBA/1/2025", PolicyType = PolicyTypeEnum.WIBA,
                         StartDate = new DateTime(2025,12,1,0,0,0), 
                         EndDate = new DateTime(2026,12,1,0,0,0),
                         PolicyLimit = 10000000m 
@@ -174,7 +175,7 @@ namespace polisync.Data
                     new InsuranceClaim
                     {
                         ClaimId = 1, 
-                        UserId = 3, PolicyId = 3,
+                        UserId = 3, PolicyType = PolicyTypeEnum.Property,
                         IncidentDescription = "Laptop Theft",
                         IncidentDate = new DateTime(2026,4,13,22,50,0),
                         ClaimAmount = 250000m,
@@ -184,7 +185,7 @@ namespace polisync.Data
                     new InsuranceClaim
                     {
                         ClaimId = 2, 
-                        UserId = 1, PolicyId = 5,
+                        UserId = 1, PolicyType= PolicyTypeEnum.WIBA,
                         IncidentDescription = "Bodily Injury At Work",
                         IncidentDate = new DateTime(2026,5,29,15,3,0),
                         ClaimAmount = 120000m,
@@ -194,7 +195,7 @@ namespace polisync.Data
                     new InsuranceClaim
                     {
                         ClaimId = 3, 
-                        UserId = 2, PolicyId = 2,
+                        UserId = 2, PolicyType = PolicyTypeEnum.Motor,
                         IncidentDescription = "Car Accident",
                         IncidentDate = new DateTime(2026,7,1,10,32,0),
                         ClaimAmount = 1000000m,
@@ -204,7 +205,7 @@ namespace polisync.Data
                     new InsuranceClaim
                     {
                         ClaimId = 4, 
-                        UserId = 8, PolicyId = 4,
+                        UserId = 8, PolicyType = PolicyTypeEnum.Travel,
                         IncidentDescription = "Baggage Loss",
                         IncidentDate = new DateTime(2026,7,5,10,32,0),
                         ClaimAmount = 1000000m,
@@ -214,7 +215,7 @@ namespace polisync.Data
                     new InsuranceClaim
                     {
                         ClaimId = 5, 
-                        UserId = 2, PolicyId = 2,
+                        UserId = 2, PolicyType = PolicyTypeEnum.Motor,
                         IncidentDescription = "Motor Windshield Replacement",
                         IncidentDate = new DateTime(2026,5,26,12,8,0),
                         ClaimAmount = 50000m,
@@ -224,7 +225,7 @@ namespace polisync.Data
                     new InsuranceClaim
                     {
                         ClaimId = 6, 
-                        UserId = 4, PolicyId = 1,
+                        UserId = 4, PolicyType = PolicyTypeEnum.Health,
                         IncidentDescription = "Medical Surgery",
                         IncidentDate = new DateTime(2026,4,7,21,33,0),
                         ClaimAmount = 200000m,
@@ -234,7 +235,7 @@ namespace polisync.Data
                     new InsuranceClaim
                     {
                         ClaimId = 7, 
-                        UserId = 1, PolicyId = 3,
+                        UserId = 1, PolicyType = PolicyTypeEnum.Property,
                         IncidentDescription = "Equipment Damage",
                         IncidentDate = new DateTime(2026,5,29,14,17,0),
                         ClaimAmount = 100000m,
@@ -244,7 +245,7 @@ namespace polisync.Data
                     new InsuranceClaim
                     {
                         ClaimId = 8, 
-                        UserId = 8, PolicyId = 4,
+                        UserId = 8, PolicyType = PolicyTypeEnum.Travel,
                         IncidentDescription = "Cancelled Flight",
                         IncidentDate = new DateTime(2026,6,29,20,4,0),
                         ClaimAmount = 75000m,

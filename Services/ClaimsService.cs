@@ -35,11 +35,11 @@ namespace polisync.Services
         public async Task<InsuranceClaim> CreateClaim(int userId, CreateClaimDto dto)
         {
             // Validation checks
-            var policy = _context.Policies.Find(dto.PolicyId);
+            var policy = _context.Policies.Find((int)dto.PolicyType);
 
             // Does policy exist?
             if (policy == null)
-                throw new Exception($"Policy with ID {dto.PolicyId} was not found.");
+                throw new Exception($"Policy with ID {(int)dto.PolicyType} was not found.");
             // If policy exists, is it active?
             if (dto.IncidentDate < policy.StartDate || dto.IncidentDate > policy.EndDate)
                 throw new Exception($"The incident date falls outside the active policy period.");
@@ -51,7 +51,7 @@ namespace polisync.Services
             var claim = new InsuranceClaim
             {
                 UserId = userId,
-                PolicyId = dto.PolicyId,
+                PolicyType = dto.PolicyType,
                 IncidentDescription = dto.IncidentDescription,
                 IncidentDate = dto.IncidentDate,
                 ClaimAmount = dto.ClaimAmount,
