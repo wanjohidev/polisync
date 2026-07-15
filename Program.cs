@@ -22,6 +22,18 @@ builder.Services.AddScoped<IPolicyInterface, PolicyRepository>();
 builder.Services.AddScoped<ClaimsService>();
 builder.Services.AddScoped<PolicyService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("frontend", policy =>
+    {
+        policy
+            .WithOrigins("http://127.0.0.1:5500/wwwroot/html/login.html")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -41,7 +53,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
-builder.Services.AddCors();
+
 
 
 // === APP ===
@@ -61,12 +73,12 @@ app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
+app.UseCors();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors();
-
 
 // === Health Endpoint ===
 // Useful check if API is alive

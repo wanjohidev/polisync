@@ -72,4 +72,7 @@ async function loadClaims() {
     });
 }
 
+// Logout
+await 
+
 
