@@ -19,13 +19,13 @@ namespace polisync.Migrations
 
             modelBuilder.Entity("PolicyUserModel", b =>
                 {
-                    b.Property<int>("PoliciesPolicyId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("PoliciesPolicyType")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UsersUserId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("PoliciesPolicyId", "UsersUserId");
+                    b.HasKey("PoliciesPolicyType", "UsersUserId");
 
                     b.HasIndex("UsersUserId");
 
@@ -51,18 +51,20 @@ namespace polisync.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PolicyId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("PolicyType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ClaimId");
 
-                    b.HasIndex("PolicyId");
+                    b.HasIndex("PolicyType");
 
                     b.HasIndex("UserId");
 
@@ -76,8 +78,8 @@ namespace polisync.Migrations
                             CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IncidentDate = new DateTime(2026, 4, 13, 22, 50, 0, 0, DateTimeKind.Unspecified),
                             IncidentDescription = "Laptop Theft",
-                            PolicyId = 3,
-                            Status = 1,
+                            PolicyType = "Property",
+                            Status = "Submitted",
                             UserId = 3
                         },
                         new
@@ -87,8 +89,8 @@ namespace polisync.Migrations
                             CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IncidentDate = new DateTime(2026, 5, 29, 15, 3, 0, 0, DateTimeKind.Unspecified),
                             IncidentDescription = "Bodily Injury At Work",
-                            PolicyId = 5,
-                            Status = 1,
+                            PolicyType = "WIBA",
+                            Status = "Submitted",
                             UserId = 1
                         },
                         new
@@ -98,8 +100,8 @@ namespace polisync.Migrations
                             CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IncidentDate = new DateTime(2026, 7, 1, 10, 32, 0, 0, DateTimeKind.Unspecified),
                             IncidentDescription = "Car Accident",
-                            PolicyId = 2,
-                            Status = 1,
+                            PolicyType = "Motor",
+                            Status = "Submitted",
                             UserId = 2
                         },
                         new
@@ -109,8 +111,8 @@ namespace polisync.Migrations
                             CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IncidentDate = new DateTime(2026, 7, 5, 10, 32, 0, 0, DateTimeKind.Unspecified),
                             IncidentDescription = "Baggage Loss",
-                            PolicyId = 4,
-                            Status = 1,
+                            PolicyType = "Travel",
+                            Status = "Submitted",
                             UserId = 8
                         },
                         new
@@ -120,8 +122,8 @@ namespace polisync.Migrations
                             CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IncidentDate = new DateTime(2026, 5, 26, 12, 8, 0, 0, DateTimeKind.Unspecified),
                             IncidentDescription = "Motor Windshield Replacement",
-                            PolicyId = 2,
-                            Status = 1,
+                            PolicyType = "Motor",
+                            Status = "Submitted",
                             UserId = 2
                         },
                         new
@@ -131,8 +133,8 @@ namespace polisync.Migrations
                             CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IncidentDate = new DateTime(2026, 4, 7, 21, 33, 0, 0, DateTimeKind.Unspecified),
                             IncidentDescription = "Medical Surgery",
-                            PolicyId = 1,
-                            Status = 1,
+                            PolicyType = "Health",
+                            Status = "Submitted",
                             UserId = 4
                         },
                         new
@@ -142,8 +144,8 @@ namespace polisync.Migrations
                             CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IncidentDate = new DateTime(2026, 5, 29, 14, 17, 0, 0, DateTimeKind.Unspecified),
                             IncidentDescription = "Equipment Damage",
-                            PolicyId = 3,
-                            Status = 1,
+                            PolicyType = "Property",
+                            Status = "Submitted",
                             UserId = 1
                         },
                         new
@@ -153,17 +155,16 @@ namespace polisync.Migrations
                             CreatedAt = new DateTime(2026, 7, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IncidentDate = new DateTime(2026, 6, 29, 20, 4, 0, 0, DateTimeKind.Unspecified),
                             IncidentDescription = "Cancelled Flight",
-                            PolicyId = 4,
-                            Status = 1,
+                            PolicyType = "Travel",
+                            Status = "Submitted",
                             UserId = 8
                         });
                 });
 
             modelBuilder.Entity("polisync.Models.Policy", b =>
                 {
-                    b.Property<int>("PolicyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("PolicyType")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
@@ -171,65 +172,56 @@ namespace polisync.Migrations
                     b.Property<decimal>("PolicyLimit")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PolicyNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PolicyType")
+                    b.Property<string>("PolicyName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("PolicyId");
+                    b.HasKey("PolicyType");
 
                     b.ToTable("Policies");
 
                     b.HasData(
                         new
                         {
-                            PolicyId = 1,
+                            PolicyType = "Health",
                             EndDate = new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PolicyLimit = 15000000m,
-                            PolicyNumber = "HEALTH/4/2023",
-                            PolicyType = "Health",
+                            PolicyName = "HEALTH/4/2023",
                             StartDate = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            PolicyId = 2,
+                            PolicyType = "Motor",
                             EndDate = new DateTime(2027, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PolicyLimit = 25000000m,
-                            PolicyNumber = "MOTOR/1/2024",
-                            PolicyType = "Motor",
+                            PolicyName = "MOTOR/1/2024",
                             StartDate = new DateTime(2026, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            PolicyId = 3,
+                            PolicyType = "Property",
                             EndDate = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PolicyLimit = 7500000m,
-                            PolicyNumber = "PROPERTY/2/2023",
-                            PolicyType = "Property",
+                            PolicyName = "PROPERTY/2/2023",
                             StartDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            PolicyId = 4,
+                            PolicyType = "Travel",
                             EndDate = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PolicyLimit = 2500000m,
-                            PolicyNumber = "TRAVEL/4/2022",
-                            PolicyType = "Travel",
+                            PolicyName = "TRAVEL/4/2022",
                             StartDate = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            PolicyId = 5,
+                            PolicyType = "WIBA",
                             EndDate = new DateTime(2026, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             PolicyLimit = 10000000m,
-                            PolicyNumber = "WIBA/1/2025",
-                            PolicyType = "WIBA",
+                            PolicyName = "WIBA/1/2025",
                             StartDate = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -363,7 +355,7 @@ namespace polisync.Migrations
                 {
                     b.HasOne("polisync.Models.Policy", null)
                         .WithMany()
-                        .HasForeignKey("PoliciesPolicyId")
+                        .HasForeignKey("PoliciesPolicyType")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -378,7 +370,7 @@ namespace polisync.Migrations
                 {
                     b.HasOne("polisync.Models.Policy", "Policy")
                         .WithMany("InsuranceClaims")
-                        .HasForeignKey("PolicyId")
+                        .HasForeignKey("PolicyType")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

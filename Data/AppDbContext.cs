@@ -126,6 +126,10 @@ namespace polisync.Data
                 .HasForeignKey(c => (int)c.PolicyType);
 
             modelBuilder.Entity<Policy>()
+                .Property(p => p.PolicyType)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Policy>()
                 .HasData(new List<Policy>
                 {
                     new Policy 
@@ -168,6 +172,13 @@ namespace polisync.Data
             // === 3. CLAIMS TABLE ===
             modelBuilder.Entity<InsuranceClaim>()
                 .HasKey(c => c.ClaimId);
+
+            modelBuilder.Entity<InsuranceClaim>()
+                .Property(c => c.PolicyType)
+                .HasConversion<string>();
+            modelBuilder.Entity<InsuranceClaim>()
+                .Property(c => c.Status)
+                .HasConversion<string>();
             
             modelBuilder.Entity<InsuranceClaim>()
                 .HasData(new List<InsuranceClaim>
