@@ -7,7 +7,7 @@ loginForm.addEventListener("submit", login);
 async function login(e){
     e.preventDefault();
 
-    const username = document.getElementById("username").value;
+    const email = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
     const response = await fetch("https://polisync-api.onrender.com/api/auth/login", {
@@ -15,25 +15,28 @@ async function login(e){
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-            username,
+            email,
             password
         })
     });
 
+    const body = await response.text();
+    console.log(response.status);
+    console.log(body);
+    
     if (!response.ok){
         alert("Invalid username or password.");
         return;
     }
 
+    const result = await response.json();
 
-    const user = await response.json();
-
-    if (user.role === "Customer"){
+    if (result.role === "Customer"){
         window.location.href = "customer.html";
         return;
     }
 
-    if (user.role === "Administrator"){
+    if (result.role === "Administrator"){
         window.location.href = "admin.html";
         return;
     }

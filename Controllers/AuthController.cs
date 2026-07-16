@@ -53,7 +53,11 @@ namespace polisync.Controllers
                 principal
             );
 
-            return Ok(new { Message = "Login successful." });
+            return Ok(new 
+                { 
+                    message = "Login successful.", 
+                    role = user.Role.ToString()
+                });
         }
 
         [Authorize]

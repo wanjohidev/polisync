@@ -8,3 +8,7 @@ aside {
     border-right: 4px solid var(--pico-muted-border-color);
     padding-right: 1rem;
 }
+
+header{
+    padding: 24px;
+}
