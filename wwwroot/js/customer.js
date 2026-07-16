@@ -3,6 +3,11 @@ const api = "https://polisync-api.onrender.com/api";
 // Switch Between Links & Pages Functionality
 const links = document.querySelectorAll("[data-page]");
 
+const pages = {
+    submit: document.getElementById("submit-page"),
+    claims: document.getElementById("claims-page")
+};
+
 links.forEach(link => {
     link.addEventListener("click", async e => {
         e.preventDefault();
@@ -16,11 +21,6 @@ links.forEach(link => {
         }
     });
 });
-
-const pages = {
-    submit: document.getElementById("submit-page"),
-    claims: document.getElementById("claims-page")
-};
 
 // Submit Claim Functionality
 const form = document.getElementById("claimForm");
@@ -56,18 +56,27 @@ form.addEventListener("submit", async (e) => {
 
 // Retrieve Claims Functionality (for logged in user)
 async function loadClaims() {
+
+console.log("Loading claims...");
+
     const response = await fetch(`${api}/customer/claims`,
         {
             credentials: "include"
         }
     );
 
+console.log(response.status);
+
     if (!response.ok) return;
 
     const claims = await response.json();
 
+console.log(claims);
+
     // populating claims table
     const table = document.getElementById("claimsTable");
+
+console.log(table);
 
     table.innerHTML = "";
 
