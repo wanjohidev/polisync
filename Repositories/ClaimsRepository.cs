@@ -44,7 +44,7 @@ namespace polisync.Repositories
             return claimsForCustomer.Select(c => new ClaimsResponseForCustomerDto
             {
                 ClaimId = c.ClaimId,
-                PolicyType= c.PolicyType,
+                PolicyType = c.PolicyType,
                 IncidentDescription = c.IncidentDescription,
                 IncidentDate = c.IncidentDate,
                 ClaimAmount = c.ClaimAmount,

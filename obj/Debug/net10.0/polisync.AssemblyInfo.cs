@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("polisync")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75d49d3de42bd12ed254735e6de05907f9000ebd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+713faf664e55b859422a7e2ccb923c6e441b05d6")]
 [assembly: System.Reflection.AssemblyProductAttribute("polisync")]
 [assembly: System.Reflection.AssemblyTitleAttribute("polisync")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
