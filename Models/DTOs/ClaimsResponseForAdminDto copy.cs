@@ -6,7 +6,7 @@ using polisync.Models.Enums;
 
 namespace polisync.Models.DTOs
 {
-    public class ClaimsResponseDto
+    public class ClaimsResponseForAdminDto
     {
         // Properties derived from Claims table
         public int ClaimId { get; set; }

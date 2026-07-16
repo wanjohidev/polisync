@@ -15,14 +15,14 @@ namespace polisync.Repositories
 
         // === Implementing Interface ===
 
-        public async Task<List<ClaimsResponseDto>> GetAllClaims()          // to be used inside Admin Controllers
+        public async Task<List<ClaimsResponseForAdminDto>> GetAllClaims()          // to be used inside Admin Controllers
         {
-            var claims = await _context.Claims
+            var claimsForAdmin = await _context.Claims
                                 .Include(c => c.User)
                                 .Include(c => c.Policy)
                                 .ToListAsync();
             
-            return claims.Select(c => new ClaimsResponseDto
+            return claimsForAdmin.Select(c => new ClaimsResponseForAdminDto
             {
                 ClaimId = c.ClaimId,
                 IncidentDescription = c.IncidentDescription,
@@ -33,13 +33,24 @@ namespace polisync.Repositories
             }).ToList();
         }
 
-        public async Task<List<InsuranceClaim>> GetMyClaims(int userId)           // to be used inside Customer Controller
+        public async Task<List<ClaimsResponseForCustomerDto>> GetMyClaims(int userId)           // to be used inside Customer Controller
         {
 
-            return await _context.Claims
-                .Where(c => c.UserId == userId)
-                .OrderByDescending(c => c.CreatedAt)
-                .ToListAsync();
+            var claimsForCustomer = await _context.Claims
+                    .Where(c => c.UserId == userId)
+                    .OrderByDescending(c => c.CreatedAt)
+                    .ToListAsync();
+
+            return claimsForCustomer.Select(c => new ClaimsResponseForCustomerDto
+            {
+                ClaimId = c.ClaimId,
+                PolicyType= c.PolicyType,
+                IncidentDescription = c.IncidentDescription,
+                IncidentDate = c.IncidentDate,
+                ClaimAmount = c.ClaimAmount,
+                Status = c.Status,
+                CreatedAt = c.CreatedAt
+            }).ToList();
         }
 
         public async Task<InsuranceClaim?> GetClaimById(int claimId)

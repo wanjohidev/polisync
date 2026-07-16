@@ -17,12 +17,12 @@ namespace polisync.Services
 
         // === Jobs ===
 
-        public Task<List<ClaimsResponseDto>> GetAllClaims()
+        public Task<List<ClaimsResponseForAdminDto>> GetAllClaims()
         {
             return _claimsRepo.GetAllClaims();
         }
 
-        public Task<List<InsuranceClaim>> GetMyClaims(int userId)
+        public Task<List<ClaimsResponseForCustomerDto>> GetMyClaims(int userId)
         {
             return _claimsRepo.GetMyClaims(userId);
         }

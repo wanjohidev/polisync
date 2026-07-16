@@ -19,17 +19,16 @@ async function login(e){
             password
         })
     });
-
-    const body = await response.text();
-    console.log(response.status);
-    console.log(body);
     
     if (!response.ok){
         alert("Invalid username or password.");
         return;
     }
 
+    // what does the AuthController login endpoint return - Message & Role
     const result = await response.json();
+
+    console.log(result);
 
     if (result.role === "Customer"){
         window.location.href = "customer.html";
