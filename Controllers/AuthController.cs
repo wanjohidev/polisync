@@ -112,7 +112,6 @@ namespace polisync.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
         */
-
-        
+       
     }
 }

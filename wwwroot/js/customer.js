@@ -1,4 +1,4 @@
-const api = "https://polisync-api.onrender.com/api";
+const api = "/api";
 
 // Switch Between Links & Pages Functionality
 const links = document.querySelectorAll("[data-page]");

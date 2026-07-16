@@ -22,25 +22,13 @@ builder.Services.AddScoped<IPolicyInterface, PolicyRepository>();
 builder.Services.AddScoped<ClaimsService>();
 builder.Services.AddScoped<PolicyService>();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("frontend", policy =>
-    {
-        policy
-            .WithOrigins("http://127.0.0.1:5500", "http://localhost:5500")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
-});
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.Cookie.Name = "polisyncAuth";
                     options.Cookie.HttpOnly  = true;
-                    options.Cookie.SameSite = SameSiteMode.None;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.Cookie.SameSite = SameSiteMode.Lax;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 
                     options.LoginPath = "/login";
                     options.LogoutPath = "/logout";
@@ -72,8 +60,6 @@ app.UseHttpsRedirection();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
-
-app.UseCors("frontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -156,4 +142,21 @@ if (app.Environment.IsDevelopment())
 }
 
 In this case, it is OK to expose app.UseSwagger() and app.UseSwaggerUI() publicly
+*/
+
+/* Removed CORS Setup since I will deploy both frontend and backend on Render
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("frontend", policy =>
+    {
+        policy
+            .WithOrigins("http://127.0.0.1:5500", "http://localhost:5500")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
+app.UseCors("frontend");
 */

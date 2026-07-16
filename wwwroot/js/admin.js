@@ -1,4 +1,5 @@
 // Config
+const api = "/api";
 // keep track of whichever claim is currently selected
 let selectedClaimId = null;
 
@@ -29,7 +30,10 @@ function showPage(pageName){
 
 // Load Policies Functionality
 async function loadPolicies(){
-    const response = await fetch("https://polisync-api.onrender.com/api/admins/policies");
+    const response = await fetch(`${api}/admins/policies`, {
+        method: "GET",
+        credentials: "include"
+    });
 
     if (!response.ok) return;
 
@@ -57,7 +61,10 @@ async function loadPolicies(){
 
 // Load Claims Functionality
 async function loadClaims(){
-    const response = await fetch("https://polisync-api.onrender.com/api/admins/claims");
+    const response = await fetch(`${api}/admins/claims`, {
+        method: "GET",
+        credentials: "include"
+    });
 
     if (!response.ok) return;
 
@@ -100,7 +107,7 @@ async function loadClaims(){
 
 // View One Claim Functionality
 async function viewClaim(claimId){
-    const response = await fetch(`https://polisync-api.onrender.com/api/admins/claims/${claimId}`);
+    const response = await fetch(`${api}/admins/claims/${claimId}`);
 
     if (!response.ok) return;
 
@@ -133,7 +140,7 @@ async function updateClaim() {
             .getElementById("statusSelect")
             .value;
 
-    const response = await fetch(`https://polisync-api.onrender.com/api/admins/claims/${selectedClaimId}`, {
+    const response = await fetch(`${api}/admins/claims/${selectedClaimId}`, {
         method: "PUT",
         headers: { "Content-Type": "application.json" },
         body: JSON.stringify({ status })
@@ -159,7 +166,7 @@ async function deleteClaim(){
 
     if (!confirm("Delete this claim?")) return;
 
-    const response = await fetch(`https://polisync-api.onrender.com/api/admins/claims/${selectedClaimId}`, {
+    const response = await fetch(`${api}/admins/claims/${selectedClaimId}`, {
         method: "DELETE"
     });
 
@@ -178,6 +185,6 @@ async function deleteClaim(){
 }
 
 // On Startup - when page loads
-// document.addEventListener("DOMContentLoaded", () => {
-//     loadClaims();
-// });
+document.addEventListener("DOMContentLoaded", () => {
+    loadClaims();
+});

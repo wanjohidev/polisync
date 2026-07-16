@@ -1,3 +1,4 @@
+const api = "/api";
 // Login Functionality
 
 const loginForm = document.getElementById("loginForm");
@@ -10,7 +11,7 @@ async function login(e){
     const email = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    const response = await fetch("https://polisync-api.onrender.com/api/auth/login", {
+    const response = await fetch(`${api}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
