@@ -6,12 +6,11 @@ using polisync.Models.Enums;
 
 namespace polisync.Models.DTOs
 {
-    public class ClaimsResponseForCustomerDto
+    public class ClaimsResponseDto
     {
-        // Properties derived from Claims table
-        public int ClaimId { get; set; }
+         public int ClaimId { get; set; }
         public PolicyTypeEnum PolicyType { get; set; }
-        public string IncidentDescription { get; set; } = string.Empty;
+        public string IncidentDescription { get; set; }
         public DateTime IncidentDate { get; set; }
         public decimal ClaimAmount { get; set; }
         public ClaimsStatusEnum Status { get; set; }

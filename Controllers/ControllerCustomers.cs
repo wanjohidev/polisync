@@ -31,7 +31,16 @@ namespace polisync.Controllers
             return CreatedAtAction(
                 nameof(GetMyClaimsEndpoint),
                 new { claimId = claim.ClaimId},
-                claim
+                new ClaimsResponseDto
+                {
+                    ClaimId = claim.ClaimId,
+                    PolicyType = claim.PolicyType,
+                    IncidentDescription = claim.IncidentDescription,
+                    IncidentDate = claim.IncidentDate,
+                    ClaimAmount = claim.ClaimAmount,
+                    Status = claim.Status,
+                    CreatedAt = claim.CreatedAt
+                }
             );
         }
 

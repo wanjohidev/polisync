@@ -61,6 +61,8 @@ app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -68,7 +70,7 @@ app.MapControllers();
 
 // === Health Endpoint ===
 // Useful check if API is alive
-app.MapGet("/", () => Results.Ok(new
+app.MapGet("/health", () => Results.Ok(new
 {
     Application = "Polisync API",
     Status = "Running",
@@ -86,7 +88,7 @@ app.Run();
 
 
 
-// === ARCHIVE ===
+// === ARCHIVE / NOTES ===
 
 /* Program.cs => Replaced JWT auth with cookie based auth:
 
@@ -159,4 +161,10 @@ builder.Services.AddCors(options =>
 });
 
 app.UseCors("frontend");
+*/
+
+/*
+app.UseDefaultFiles() - rewrites request path from "/" to "index.html"
+app.UseStaticFiles() - serves the actual files
+app.UseRouting() - endpoint mapping
 */

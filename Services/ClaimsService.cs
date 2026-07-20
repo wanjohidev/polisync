@@ -17,12 +17,12 @@ namespace polisync.Services
 
         // === Jobs ===
 
-        public Task<List<ClaimsResponseForAdminDto>> GetAllClaims()
+        public Task<List<ClaimsListResponseForAdminDto>> GetAllClaims()
         {
             return _claimsRepo.GetAllClaims();
         }
 
-        public Task<List<ClaimsResponseForCustomerDto>> GetMyClaims(int userId)
+        public Task<List<ClaimsListResponseForCustomerDto>> GetMyClaims(int userId)
         {
             return _claimsRepo.GetMyClaims(userId);
         }
@@ -32,10 +32,14 @@ namespace polisync.Services
             return _claimsRepo.GetClaimById(id);
         }
 
+        public Task<ClaimDetailsDtoForAdmin?> GetClaimDetails(int id)
+        {
+            return _claimsRepo.GetClaimDetails(id);
+        }
         public async Task<InsuranceClaim> CreateClaim(int userId, CreateClaimDto dto)
         {
             // Validation checks
-            var policy = _context.Policies.Find((int)dto.PolicyType);
+            var policy = _context.Policies.Find(dto.PolicyType);
 
             // Does policy exist?
             if (policy == null)

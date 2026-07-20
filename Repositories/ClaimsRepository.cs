@@ -15,25 +15,26 @@ namespace polisync.Repositories
 
         // === Implementing Interface ===
 
-        public async Task<List<ClaimsResponseForAdminDto>> GetAllClaims()          // to be used inside Admin Controllers
+        public async Task<List<ClaimsListResponseForAdminDto>> GetAllClaims()                   // to be used inside Admin Controllers
         {
             var claimsForAdmin = await _context.Claims
                                 .Include(c => c.User)
                                 .Include(c => c.Policy)
                                 .ToListAsync();
             
-            return claimsForAdmin.Select(c => new ClaimsResponseForAdminDto
+            return claimsForAdmin.Select(c => new ClaimsListResponseForAdminDto
             {
                 ClaimId = c.ClaimId,
                 IncidentDescription = c.IncidentDescription,
                 ClaimAmount = c.ClaimAmount,
-
+                IncidentDate = c.IncidentDate,
+                Status = c.Status,
                 Claimant = c.User != null ? $"{c.User.Name}" : "Unknown",
                 PolicyType = c.Policy.PolicyType
             }).ToList();
         }
 
-        public async Task<List<ClaimsResponseForCustomerDto>> GetMyClaims(int userId)           // to be used inside Customer Controller
+        public async Task<List<ClaimsListResponseForCustomerDto>> GetMyClaims(int userId)           // to be used inside Customer Controller
         {
 
             var claimsForCustomer = await _context.Claims
@@ -41,7 +42,7 @@ namespace polisync.Repositories
                     .OrderByDescending(c => c.CreatedAt)
                     .ToListAsync();
 
-            return claimsForCustomer.Select(c => new ClaimsResponseForCustomerDto
+            return claimsForCustomer.Select(c => new ClaimsListResponseForCustomerDto
             {
                 ClaimId = c.ClaimId,
                 PolicyType = c.PolicyType,
@@ -80,6 +81,29 @@ namespace polisync.Repositories
             
             _context.Claims.Remove(claim);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<ClaimDetailsDtoForAdmin?> GetClaimDetails(int claimId)
+        {
+            var claim = await _context.Claims
+                        .Include(c => c.User)
+                        .Include(c => c.Policy)
+                        .FirstOrDefaultAsync(c => c.ClaimId == claimId);
+
+            if (claim == null) return null;
+
+            return new ClaimDetailsDtoForAdmin
+            {
+                ClaimId = claim.ClaimId,
+                PolicyType = claim.PolicyType,
+                Claimant = claim.User != null ? $"{claim.User.Name}" : "Unknown",
+                IncidentDescription = claim.IncidentDescription,
+                IncidentDate = claim.IncidentDate,
+                ClaimAmount = claim.ClaimAmount,
+                Status = claim.Status
+            };
+
+
         }
     }
 }

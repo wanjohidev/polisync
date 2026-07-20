@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -44,11 +44,11 @@
                     Policy Type: 
                    <select required id="policyType">
                     <option selected disabled value="">Select the type of policy against which you wish to submit a claim...</option>
-                    <option>Health</option>
-                    <option>Motor</option>
-                    <option>Property</option>
-                    <option>Travel</option>
-                    <option>WIBA</option>
+                    <option value="1">Health</option>
+                    <option value="2">Motor</option>
+                    <option value="3">Property</option>
+                    <option value="4">Travel</option>
+                    <option value="5">WIBA</option>
                    </select>
                 </label>
 
@@ -100,6 +100,6 @@
     
 </body>
 
-<script src="/js/customer.js"></script>
-<script src="/js/shared.js"></script>
+<script src="/js/shared.js" defer></script>
+<script src="/js/customer.js" defer></script>
 </html>

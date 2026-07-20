@@ -1,4 +1,5 @@
 using polisync.Models;
+using polisync.Models.DTOs;
 using polisync.Repositories;
 
 namespace polisync.Services
@@ -12,7 +13,7 @@ namespace polisync.Services
         }
 
         // === Job ===
-        public Task<List<Policy>> GetAllPolicies()
+        public Task<List<PoliciesListResponseForAdminDto>> GetAllPolicies()
         {
             return _policyRepo.GetPolicies();
         }

@@ -1,5 +1,3 @@
-// Config
-const api = "/api";
 // keep track of whichever claim is currently selected
 let selectedClaimId = null;
 
@@ -22,22 +20,21 @@ function showPage(pageName){
     Object.values(pages).forEach(page => page.hidden = true);
     pages[pageName].hidden = false;
 
-    document.getElementById("claimDetails").hidden = true;
-
-    if (pageName === policies) loadPolicies();
-    if (pageName === claims) loadClaims();
+    if (pageName === "policies") loadPolicies();
+    if (pageName === "claims") loadClaims();
 }
 
 // Load Policies Functionality
 async function loadPolicies(){
+
     const response = await fetch(`${api}/admins/policies`, {
-        method: "GET",
         credentials: "include"
     });
 
     if (!response.ok) return;
 
     const policies = await response.json();
+
     const table = document.getElementById("policiesTable");
 
     table.innerHTML = "";
@@ -48,9 +45,9 @@ async function loadPolicies(){
         row.innerHTML = `
             <td>${policy.policyName}</td>
             <td>${policy.policyType}</td>
-            <td>${policy.startDate}</td>
-            <td>${policy.endDate}</td>
-            <td>${policy.policyLimit}</td>
+            <td>${formatDate(policy.startDate)}</td>
+            <td>${formatDate(policy.endDate)}</td>
+            <td>${formatCurrency(policy.policyLimit)}</td>
         `;
 
         table.appendChild(row);
@@ -61,8 +58,8 @@ async function loadPolicies(){
 
 // Load Claims Functionality
 async function loadClaims(){
+
     const response = await fetch(`${api}/admins/claims`, {
-        method: "GET",
         credentials: "include"
     });
 
@@ -70,7 +67,8 @@ async function loadClaims(){
 
     const claims = await response.json();
 
-    const table = document.getElementById("claimTable");
+    const table = document.getElementById("claimsTable");
+
     table.innerHTML = "";
 
     claims.forEach(claim => {
@@ -78,15 +76,16 @@ async function loadClaims(){
         
         row.innerHTML = `
             <td>${claim.claimId}</td>
-            <td>${claim.incidentDescription}</td>
-            <td>${claim.claimAmount}</td>
             <td>${claim.claimant}</td>
             <td>${claim.policyType}</td>
+            <td>${claim.incidentDescription}</td>
+            <td>${formatCurrency(claim.claimAmount)}</td>
+            <td>${claim.status}</td>
 
             <td>
                 <button 
                     class="view-btn"
-                    data-id="${claim.id}"    
+                    data-id="${claim.claimId}"   
                 >
                     View
                 </button>
@@ -96,8 +95,7 @@ async function loadClaims(){
         table.appendChild(row);
     });
 
-    document
-            .querySelectorAll(".view-btn")
+    document.querySelectorAll(".view-btn")
             .forEach(btn => {
                 btn.addEventListener("click", () => {
                     viewClaim(btn.dataset.id);
@@ -107,55 +105,66 @@ async function loadClaims(){
 
 // View One Claim Functionality
 async function viewClaim(claimId){
-    const response = await fetch(`${api}/admins/claims/${claimId}`);
-
-    if (!response.ok) return;
-
-    const claim = await response.json();
-
-    selectedClaimId = claimId;
-
-    document.getElementById("claimDetails").hidden = false;
-
-    document.getElementById("detailClaimId").textcontent = claim.id;
-    document.getElementById("detailPolicy").textcontent = claim.policyType;
-    document.getElementById("detailClaimant").textcontent = claim.user.name;
-    document.getElementById("detailDescription").textcontent = claim.incidentDescription;
-    document.getElementById("detailAmount").textcontent = claim.claimAmount;
-    document.getElementById("detailStatus").value = claim.status;
-
-    document.getElementById("statusSelect").value = claim.status;
-}
-
-// Update Claim Functionality
-document
-    .getElementById("updateBtn")
-    .addEventListener("click", updateClaim);
-
-async function updateClaim() {
-
-    if (selectedClaimId === null) return;
-
-    const status = document
-            .getElementById("statusSelect")
-            .value;
-
-    const response = await fetch(`${api}/admins/claims/${selectedClaimId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application.json" },
-        body: JSON.stringify({ status })
+    const response = await fetch(`${api}/admins/claims/${claimId}`, {
+        credentials: "include"
     });
 
     if (!response.ok) {
-        alert("Unable to update claim.");
+        alert("Unable to load claim.");
+        return;
+    }
+
+    const claim = await response.json();
+
+    selectedClaimId = claim.claimId;
+
+    document.getElementById("detailClaimId").textContent = claim.claimId;
+    document.getElementById("detailPolicy").textContent = claim.policyType;
+    document.getElementById("detailClaimant").textContent = claim.claimant;
+    document.getElementById("detailDescription").textContent = claim.incidentDescription;
+    document.getElementById("detailAmount").textContent = formatCurrency(claim.claimAmount);
+    document.getElementById("detailDate").textContent = formatDate(claim.incidentDate);
+    document.getElementById("detailStatus").textContent = claim.status;
+   
+    document.getElementById("statusSelect").value = claim.status;
+
+    document.getElementById("claimModal").showModal();
+}
+
+// Close Modal Functionality
+document.getElementById("closeModal")
+        .addEventListener("click", () => {
+            document.getElementById("claimModal").close();
+});
+
+// Update Claim Functionality
+document.getElementById("updateBtn")
+        .addEventListener("click", updateClaim);
+
+async function updateClaim() {
+    if (selectedClaimId === null) return;
+
+    const newStatus = document.getElementById("statusSelect").value;
+
+    const response = await fetch(`${api}/admins/claims/${selectedClaimId}`, {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status:Number(newStatus) })
+    });
+
+    if (!response.ok) {
+        alert("Unable to update claim status.");
         return;
     }
         
-    await viewClaim(selectedClaimId);
+    // await viewClaim(selectedClaimId);
+    // await loadClaims();
+    document.getElementById("claimModal").close();
     await loadClaims();
 }
 
-// Delete Button Functionality
+// Delete Claim Functionality
 document
     .getElementById("deleteBtn")
     .addEventListener("click", deleteClaim);
@@ -164,10 +173,12 @@ async function deleteClaim(){
 
     if (selectedClaimId === null) return;
 
-    if (!confirm("Delete this claim?")) return;
+    if (!confirm("Delete this claim?")) 
+        return;
 
     const response = await fetch(`${api}/admins/claims/${selectedClaimId}`, {
-        method: "DELETE"
+        method: "DELETE",
+        credentials: "include"
     });
 
     if (!response.ok) {
@@ -175,16 +186,13 @@ async function deleteClaim(){
         return;
     }
 
-    document
-        .getElementById("claimDetails")
-        .hidden = true;
-
-    selectedClaimId = null;
+    document.getElementById("claimModal").close();
 
     await loadClaims();
 }
 
 // On Startup - when page loads
 document.addEventListener("DOMContentLoaded", () => {
+    loadPolicies(),
     loadClaims();
 });

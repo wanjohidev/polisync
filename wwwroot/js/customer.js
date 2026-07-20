@@ -1,5 +1,3 @@
-const api = "/api";
-
 // Switch Between Links & Pages Functionality
 const links = document.querySelectorAll("[data-page]");
 
@@ -29,11 +27,14 @@ form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const claim = {
-        policyType: document.getElementById("policyType").value,
+        policyType: Number(document.getElementById("policyType").value),
         incidentDescription: document.getElementById("incidentDescription").value,
         incidentDate: document.getElementById("incidentDate").value,
-        claimAmount: document.getElementById("claimAmount").value
+        claimAmount: Number(document.getElementById("claimAmount").value)
     };
+
+    console.log(claim);
+    console.log(JSON.stringify(claim));
 
     const response = await fetch(`${api}/customer/claims`, {
         method: "POST",
@@ -54,10 +55,8 @@ form.addEventListener("submit", async (e) => {
     }
 })
 
-// Retrieve Claims Functionality (for logged in user)
+// View Claims Functionality (for logged in user)
 async function loadClaims() {
-
-console.log("Loading claims...");
 
     const response = await fetch(`${api}/customer/claims`,
         {
@@ -65,18 +64,12 @@ console.log("Loading claims...");
         }
     );
 
-console.log(response.status);
-
     if (!response.ok) return;
 
     const claims = await response.json();
 
-console.log(claims);
-
     // populating claims table
     const table = document.getElementById("claimsTable");
-
-console.log(table);
 
     table.innerHTML = "";
 
@@ -88,10 +81,10 @@ console.log(table);
             <td>${claim.claimId}</td>
             <td>${claim.policyType}</td>
             <td>${claim.incidentDescription}</td>
-            <td>${claim.incidentDate}</td>
-            <td>${claim.claimAmount}</td>
+            <td>${formatDate(claim.incidentDate)}</td>
+            <td>${formatCurrency(claim.claimAmount)}</td>
             <td>${claim.status}</td>
-            <td>${claim.createdAt}</td>
+            <td>${formatDate(claim.createdAt)}</td>
     `;
 
         table.appendChild(row);

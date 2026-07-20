@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using polisync.Data;
 using polisync.Models;
+using polisync.Models.DTOs;
 
 namespace polisync.Repositories
 {
@@ -14,9 +15,18 @@ namespace polisync.Repositories
 
         // === Implementing interface ===
         
-        public async Task<List<Policy>> GetPolicies()
+        public async Task<List<PoliciesListResponseForAdminDto>> GetPolicies()
         {
-            return await _context.Policies.ToListAsync();
+            var policies = await _context.Policies.ToListAsync();
+
+            return policies.Select(p => new PoliciesListResponseForAdminDto
+            {
+                PolicyName = p.PolicyName,
+                PolicyType = p.PolicyType,
+                StartDate = p.StartDate,
+                EndDate = p.EndDate,
+                PolicyLimit = p.PolicyLimit
+            }).ToList();
         }
     }
 }

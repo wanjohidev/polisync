@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -36,6 +36,7 @@
     </aside>
 
     <section id="content">
+
         <article id="policies-page">
             <h4>List of available policies:</h4>
             <table>
@@ -63,10 +64,11 @@
                 <thead>
                     <tr>
                         <th>Claim ID</th>
-                        <th>Incident Description</th>
-                        <th>Claim Amount</th>
                         <th>Claimant</th>
                         <th>Policy Type</th>
+                        <th>Incident Description</th>
+                        <th>Claim Amount</th>
+                        <th>Claim Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -76,11 +78,15 @@
                 </tbody>
 
             </table>
-    </section>
+        </article>
 
-    <section id="claimDetails" hidden>
-        <h4>Claim Details: </h4>
+        <dialog id="claimModal">
         <article>
+            <header>
+                <button aria-label="Close" rel="prev" id="closeModal"></button>
+                <h4>Claim Details: </h4>
+            </header>
+            
             <p><strong>Claim ID:</strong><span id="detailClaimId"></span></p>
             <p><strong>Policy: </strong><span id="detailPolicy"></span></p>
             <p><strong>Claimant: </strong><span id="detailClaimant"></span></p>
@@ -88,25 +94,31 @@
 
             <p id="detailDescription"></p>
 
-            <p><strong>Amount: </strong><span id="detailAmount"></span></p>
-            <p><strong>Status: </strong><span id="detailStatus"></span></p>
+            <p><strong>Incident Date: </strong><span id="detailDate"></span></p>
+            <p><strong>Claim Amount: </strong><span id="detailAmount"></span></p>
+            <p><strong>Current Claim Status: </strong><span id="detailStatus"></span></p>
 
-            <hr>
+                <hr>
 
             <label for="statusSelect">UpdateStatus</label>
             <select id="statusSelect">
-                <option value="Submitted">Submitted</option>
-                <option value="UnderReview">Under Review</option>
-                <option value="Approved">Approved</option>
-                <option value="Denied">Denied</option>
+                <option value="1">Submitted</option>
+                <option value="2">Under Review</option>
+                <option value="3">Approved</option>
+                <option value="4">Denied</option>
             </select>
 
-            <button id="updateBtn">Update Claim Status</button>
-
-            <button id="deleteBtn" class="contrast">Delete Claim</button>
+            <footer>
+                <button id="updateBtn">Update Claim Status</button>
+                <button id="deleteBtn" class="contrast">Delete Claim</button>
+            </footer>
 
         </article>
+        </dialog>
+
     </section>
+
+    
 
 
 
@@ -114,6 +126,6 @@
 </main>   
 </body>
 
-<script src="/js/admin.js"></script>
-<script src="/js/shared.js"></script>
+<script src="/js/shared.js" defer></script>
+<script src="/js/admin.js" defer></script>
 </html>

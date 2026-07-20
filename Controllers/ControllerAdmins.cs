@@ -44,7 +44,7 @@ namespace polisync.Controllers
 
         public async Task<IActionResult> GetClaimByIdEndpoint([FromRoute] int claimId)
         {
-            var claim = await _claimsService.GetClaimById(claimId);
+            var claim = await _claimsService.GetClaimDetails(claimId);
             return Ok(claim);
         }
 
